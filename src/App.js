@@ -1,25 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react'
+
+const axios = require('axios')
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  var [message, setMessage] = useState('')
+  
+  return ( <div className="App">
+	{message} <br/>
+	  <input type="text" onChange={e=>{setMessage(e.target.value)}}></input>
+	  <input type="button" onClick={()=>{
+		  axios.get('http://localhost:4000/chat/get', {
+			header: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		  }).then(response=>{
+			  alert(response.data)
+		  }).catch(err=>{console.log(err)})
+	  }} value="Send"></input>
+   </div>);
 }
 
 export default App;
