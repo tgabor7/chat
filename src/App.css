@@ -2,37 +2,81 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  background-color: black;
+  width: 50%;
+  padding: 10px;
+  margin: auto;
+  overflow: auto;
+  height: 300px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.message0 {
+  background-color: #1188dd;
+  color: #ffdddd;
+  text-align: right;
+  padding: 5px;
+  margin: 4px;
+  display: table;
+  border-radius: 5px;
+  float: right;
 }
+.messageContainer{
+  overflow: auto;
+}
+.message1 {
+  background-color: #dd2211;
+  color: #ffdddd;
+  text-align: left;
+  padding: 5px;
+  margin: 4px;
+  display: table;
+  border-radius: 5px;
+  float: left;
+  overflow: auto;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+.sendButton {
+  background-color: #1188dd;
   color: white;
+  border-radius: 5px;
+  border: 0px;
+  width: 10ch;
+  height: 4ch;
+}
+.sendButton:hover {
+  cursor: pointer;
+  border: 1px solid white;
+}
+.name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  position: absolute;
+  color: white;
+  z-index: 1;
+  text-align: center;
+}
+.messageField {
+  border-radius: 5px;
+  border: 1px lightgray solid;
+  height: 4ch;
+  margin-right: 10px;
+}
+::-webkit-scrollbar {
+  width: 2px;
 }
 
-.App-link {
-  color: #61dafb;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.inputContainer {
+  position: absolute;
+  right: 24%;
 }
