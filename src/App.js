@@ -6,7 +6,7 @@ const axios = require('axios')
 
 function App() {
 
-  var [message, setMessage] = useState('')
+  var [message, setMessage] = useState('asd\nqwe\nasd')
   
   return ( <div className="App">
 	{message} <br/>
