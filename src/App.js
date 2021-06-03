@@ -1,13 +1,19 @@
 import icon from './icon.svg';
 import './App.css';
 import React, {useState} from 'react'
+import Login from './Login'
 
 const axios = require('axios')
 
 function App() {
+  
+  let page = 0
 
   var [messages, setMessages] = useState([{message: 'asd', sender: 0},{message: 'qwe', sender: 1}])
   var [message, setMessage] = useState('')
+
+  if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app</div><Login login={()=>{alert('HI')}}/></div>)
+
 
   const name = "Fuck face";
   let sendButton = React.createRef();

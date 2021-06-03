@@ -107,3 +107,71 @@
   font-family: Arial, Helvetica, sans-serif;
   padding: 20px;
 }
+.loginContainer {
+  position: relative;
+  width: 30%;
+  height: 500px;
+  margin: auto;
+  background-color: #111111;
+}
+h1 {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 36px;
+  text-align: center;
+  padding: 10px;
+}
+.loginInput {
+  position: absolute;
+  margin: auto;
+  left: 30%;
+  background-color: #111111;
+  border: 0px;
+  height: 30px;
+  margin-top: 50px;
+  outline: none; 
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+  text-align: center;
+  border-bottom: 2px solid black;
+}
+.loginInput::before {
+  width: 0%;
+}
+.loginInput:focus{
+  outline: none;
+  border-bottom: 1px solid white;
+}
+.loginInput:focus ~ .placeHolder, 
+.loginInput:valid ~ .placeHolder {
+  visibility: hidden;
+}
+.loginButton {
+  position: absolute;
+  bottom: 10px;
+  left: 34%;
+  border: 0px;
+  border-radius: 0;
+  width: 10ch;
+  height: 4ch;
+  background-color: black;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+}
+.loginButton:hover{
+  cursor: pointer;
+  transform: scale(1.04);
+}
+.loginButton:focus{
+  border: 1px solid white;
+}
+.placeHolder {
+  position: absolute;
+  margin: auto;
+  margin-top: 50px;
+  left: 45%;
+  color: #aaaaaa;
+  pointer-events: none;
+}
