@@ -32,16 +32,17 @@ function App() {
   validateMessage.bind(this)
 
   return ( <div className="App">
+	  <div className="header"> Chat app</div>
+	  <div className="mainContainer">
 	<div className="container" ref={container}>
-	<div className="name">{name}</div>
-
+	
+	
 	<div className="messageContainer">
 	{messages_render}
 	</div>
 	
 	</div>
-	<br/>
-	<div className="inputContainer">
+	<div className="innercontainer">
 	  <input type="text" class="messageField" ref={messageField} 
 	 onFocus={e=>{
 		 
@@ -64,6 +65,8 @@ function App() {
 			scroll+=100
 		  },100)
 		  }} value="Send"></input></div>
+	<div className="name">{name}</div>
+	</div>
    </div>);
 }
 
