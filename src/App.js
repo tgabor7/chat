@@ -84,6 +84,7 @@ function App() {
 		  }} value="Send"></input></div>
 	<div className="name">{receiver}</div>
 	</div>
+	
    </div>);
 }
 

@@ -218,3 +218,29 @@ a {
 a:hover {
   cursor: pointer;
 }
+
+.dialogContainer {
+  position: absolute;
+  top: 10%;
+  left: -5%;
+  padding-top: -10px;
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 50px;
+  z-index: 2;
+  background-color: #222222;
+}
+.dialogContainer input {
+    position: relative;
+    width: 10ch;
+    height: 4ch;
+    left: 43%;
+    text-align: center;
+    background-color: yellow;
+    color: black;
+    border: 1px solid black;
+}
+.dialogContainer input:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+}

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Dialog from './Dialog'
 
 const axios = require('axios')
 
@@ -13,6 +14,8 @@ function Login(props){
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
     const [userError, setUserError] = useState('')
+    const [show, setShow] = useState(false)
+
 
     let validatePassword = ()=>{
         if(password.length < 8){
@@ -54,6 +57,17 @@ function Login(props){
         
     }
 
+    let register = ()=>{
+        axios.post('http://localhost:4000/user/register', {name: username, password: password}).then(response=>{
+            if (response.data === 'ok'){
+                setShow(true)
+            }
+            if(response.data === 'Username taken'){
+                setUserError('Username taken!')
+            }
+        })
+    }
+
     if(page === 0) return (<div className="loginContainer">
         <h1>Login</h1>
         <div className="Input"><input required value={username} onChange={e=>{setUsername(e.target.value)}} type="text"></input>
@@ -91,17 +105,19 @@ function Login(props){
     <p>Already have an account?<a onClick={()=>{
             setPage(0)
         }}>Log in!</a></p>
+    
 
     <input className="loginButton" type="button" value="Register" onClick={
         //props.login
         ()=>{
             if(validate()){
-                setPage(0)
+                register()                
             }
             
         }
-
+        
         }></input>
+        <Dialog show={show} setShow={setShow} message={"Registered succesfully!"}></Dialog>
 </div>)
 }
 
