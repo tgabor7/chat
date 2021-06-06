@@ -11,6 +11,13 @@
   overflow: auto;
   height: 500px;
 }
+.error {
+  color: #dd2211;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  padding: 10px;
+}
 .message0 {
   background-color: #1188dd;
   color: #ffdddd;
@@ -127,6 +134,8 @@
   height: 500px;
   margin: auto;
   background-color: #111111;
+  height: auto;
+  border: 1px solid gray;
 }
 h1 {
   color: white;
@@ -135,7 +144,11 @@ h1 {
   text-align: center;
   padding: 10px;
 }
-.passwordInput {
+.Input {
+  position: relative;
+  margin: auto;
+}
+.Input input {
   position: relative;
   margin: auto;
   left: 30%;
@@ -150,47 +163,22 @@ h1 {
   text-align: center;
   border-bottom: 2px solid black;
 }
-.passwordInput::before {
+.Input input::before {
   width: 0%;
 }
-.passwordInput:focus{
+.Input input:focus{
   outline: none;
-  border-bottom: 1px solid white;
+  border-bottom: 2px solid white;
 }
-.passwordInput:focus ~ .passwordplaceHolder, 
-.passwordInput:valid ~ .passwordplaceHolder {
-  visibility: hidden;
-}
-.loginInput {
-  position: relative;
-  margin: auto;
-  left: 30%;
-  background-color: #111111;
-  border: 0px;
-  height: 30px;
-  margin-top: 50px;
-  outline: none; 
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: large;
-  text-align: center;
-  border-bottom: 2px solid black;
-}
-.loginInput::before {
-  width: 0%;
-}
-.loginInput:focus{
-  outline: none;
-  border-bottom: 1px solid white;
-}
-.loginInput:focus ~ .placeHolder, 
-.loginInput:valid ~ .placeHolder {
+.Input input:focus ~ .placeHolder, 
+.Input input:valid ~ .placeHolder {
   visibility: hidden;
 }
 .loginButton {
-  position: absolute;
+  position: relative;
   bottom: 10px;
   left: 34%;
+  margin-top: 20px;
   border: 0px;
   border-radius: 0;
   width: 10ch;
@@ -208,18 +196,25 @@ h1 {
   border: 1px solid white;
 }
 .placeHolder {
-  position: relative;
+  position: absolute;
   margin: auto;
+  padding: auto;
   transform: translateY(-35px);
   left: 45%;
   color: #aaaaaa;
+  text-align: center;
   pointer-events: none;
 }
-.passwordplaceHolder {
-  position: relative;
-  margin: auto;
-  transform: translateY(-35px);
-  left: 45%;
-  color: #aaaaaa;
-  pointer-events: none;
+p {
+  margin-top: 50px;
+  text-align: center;
+  color: white;
+}
+a {
+  text-decoration: underline;
+  color: yellow;
+  padding-left: 50px;
+}
+a:hover {
+  cursor: pointer;
 }
