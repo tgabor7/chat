@@ -2,6 +2,7 @@ import icon from './icon.svg';
 import './App.css';
 import React, {useEffect, useState} from 'react'
 import Login from './Login'
+import Dashboard from './Dashboard'
 
 const axios = require('axios')
 
@@ -22,7 +23,10 @@ function App() {
 	})
   }, [])
 
-  if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app</div><Login login={()=>{setPage(1)}}/></div>)
+ 
+	if(page === 2) return (<div className='mainContainer'><div className="header"> Chat app</div><Dashboard /></div>)
+
+	if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app</div><Login login={()=>{setPage(1)}}/></div>)
 
   
   let sendButton = React.createRef();
