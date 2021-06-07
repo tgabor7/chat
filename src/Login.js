@@ -70,6 +70,7 @@ function Login(props){
 
     if(page === 0) return (<div className="loginContainer">
         <h1>Login</h1>
+        <form>
         <div className="Input"><input required value={username} onChange={e=>{setUsername(e.target.value)}} type="text"></input>
         <div className="placeHolder">Username</div></div>
 
@@ -79,13 +80,32 @@ function Login(props){
         <p>Don't have an account?<a onClick={()=>{
             setPage(1)
         }}>Sign up!</a></p>
-        <input className="loginButton" type="button" value="Login" onClick={
-            props.login
+        <input className="loginButton" type="button" value="Login" onClick={()=>{
+                axios.post('http://localhost:4000/user/login', {
+                    name: username,
+                    password: password
+                }).then(response=>{
+                    if(response.data === 'Failed to login!'){
+                        alert(response.data)
+                    }
+                    else if(response.data === 'User not found'){
+                        alert(response.data)
+                    }
+                    else {
+                        props.login()
+                    }
+
+                })
+        }
+            
+            
+            
             }></input>
+            </form>
     </div>)
     else return (<div className="loginContainer">
     <h1>Register</h1>
-    
+    <form>
     <div className="Input"><input required type="text" value={username} onChange={e=>{setUsername(e.target.value)}}></input>
         <div className="placeHolder">Username</div>
         <div className="error">{userError}</div></div>
@@ -117,6 +137,7 @@ function Login(props){
         }
         
         }></input>
+        </form>
         <Dialog show={show} setShow={setShow} message={"Registered succesfully!"}></Dialog>
 </div>)
 }

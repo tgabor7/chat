@@ -3,6 +3,7 @@ import './App.css';
 import React, {useEffect, useState} from 'react'
 import Login from './Login'
 import Dashboard from './Dashboard'
+import Footer from './Footer'
 
 const axios = require('axios')
 
@@ -11,8 +12,21 @@ function App() {
   var [messages, setMessages] = useState([{message: 'asd', sender: 0},{message: 'qwe', sender: 1}])
   var [message, setMessage] = useState('')
   var [page, setPage] = useState(0)
-  const sender = "usertest1"
-  const receiver = "usertest2"
+  const [sender, setSender] = useState('usertest1')
+  const [receiver, setReceiver] = useState('usertest2')
+  const [users, setUsers] = useState([])
+
+  let updateUsers = ()=>{
+	axios.get('http://localhost:4000/user').then(response=>{
+		let tmp = response.data.map(e=>{
+			return <div className="userCard" onClick={()=>{
+				setReceiver(e.name)
+				setPage(1)
+			}}>{e.name}</div>
+		})
+		setUsers(tmp)
+	})
+  }
 
   useEffect(()=>{
 	axios.get('http://localhost:4000/chat/get/' + sender + '/' + receiver).then(response=>{
@@ -21,12 +35,16 @@ function App() {
 		})
 		setMessages(tmp)
 	})
+	updateUsers()
   }, [])
 
  
-	if(page === 2) return (<div className='mainContainer'><div className="header"> Chat app</div><Dashboard /></div>)
+	if(page === 2) return (<div className='mainContainer'><div className="header"> Chat app</div><Dashboard users={users} /><Footer /></div>)
 
-	if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app</div><Login login={()=>{setPage(1)}}/></div>)
+	if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app</div><Login login={()=>{
+		updateUsers()
+		setPage(2)
+	}}/><Footer /></div>)
 
   
   let sendButton = React.createRef();
@@ -46,7 +64,7 @@ function App() {
 	  if(m.length < 1) return false
 	  return true
   }
-
+  
   updateMessages.bind(this)
   validateMessage.bind(this)
 
@@ -88,7 +106,7 @@ function App() {
 		  }} value="Send"></input></div>
 	<div className="name">{receiver}</div>
 	</div>
-	
+	<Footer />
    </div>);
 }
 
