@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  overflow-x: hidden;
+
 }
 
 .container {
@@ -10,6 +12,8 @@
   margin: auto;
   overflow: auto;
   height: 500px;
+  overflow-x: hidden;
+
 }
 .error {
   color: #dd2211;
@@ -133,6 +137,19 @@
 .header input:hover {
   cursor: pointer;
   transform: scale(1.03);
+}
+
+.header p {
+  margin-left: 10px;
+  margin-top: 0;
+  padding: auto;
+  position: relative;
+  float: right;
+  border: 1px solid #222222;
+}
+.header h1 {
+  color: yellow;
+  font-family: 'Times New Roman', Times, serif;
 }
 .loginContainer {
   position: relative;

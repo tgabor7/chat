@@ -9,12 +9,24 @@ const axios = require('axios')
 
 function App() {
   
-  var [messages, setMessages] = useState([{message: 'asd', sender: 0},{message: 'qwe', sender: 1}])
+  var [messages, setMessages] = useState([])
   var [message, setMessage] = useState('')
-  var [page, setPage] = useState(0)
+  var [page, setPage] = useState(2)
   const [sender, setSender] = useState('usertest1')
   const [receiver, setReceiver] = useState('usertest2')
   const [users, setUsers] = useState([])
+
+  let updateMessages = (m)=>{
+	let currentMessages = messages.slice();
+	currentMessages.push({message: m, sender: 0})
+	setMessages(currentMessages)
+  }
+   
+  let sendMessage = (m)=>{
+	  axios.post('http://localhost:4000/chat/post', {message: m, sender: sender, receiver: receiver}).then(()=>{
+
+	  })
+  }
 
   let updateUsers = ()=>{
 	axios.get('http://localhost:4000/user').then(response=>{
@@ -22,26 +34,32 @@ function App() {
 			return <div className="userCard" onClick={()=>{
 				setReceiver(e.name)
 				setPage(1)
+				getMessages(e.name)
+				alert(e.name)
+				alert(sender)
 			}}>{e.name}</div>
 		})
 		setUsers(tmp)
 	})
   }
-
-  useEffect(()=>{
-	axios.get('http://localhost:4000/chat/get/' + sender + '/' + receiver).then(response=>{
+  let getMessages = (e)=>{
+	axios.get('http://localhost:4000/chat/get/' + sender + '/' + e).then(response=>{
 		let tmp = response.data.map(e=>{
 			return {message: e.message, sender: e.sender === sender ? 0 : 1}
 		})
 		setMessages(tmp)
 	})
+  }
+  
+  useEffect(()=>{
+	
 	updateUsers()
   }, [])
 
  
-	if(page === 2) return (<div className='mainContainer'><div className="header"> Chat app</div><Dashboard users={users} /><Footer /></div>)
+	if(page === 2) return (<div className='mainContainer'><div className="header"> Chat app<p>Logged in as {sender}</p></div><Dashboard users={users} /><Footer /></div>)
 
-	if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app</div><Login login={()=>{
+	if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app<p>Logged in as {sender}</p></div><Login login={()=>{
 		updateUsers()
 		setPage(2)
 	}}/><Footer /></div>)
@@ -55,21 +73,13 @@ function App() {
 	  return <div><div className={e.sender == 0 ? "message0" : "message1"}>{e.message} </div><br /><br /></div>
   })
 
-  let updateMessages = (m)=>{
-	let currentMessages = messages.slice();
-	currentMessages.push({message: m, sender: 0})
-	setMessages(currentMessages)
-  }
   let validateMessage = (m)=>{
 	  if(m.length < 1) return false
 	  return true
   }
   
-  updateMessages.bind(this)
-  validateMessage.bind(this)
-
   return ( <div className="App">
-	  <div className="header"> Chat app  <input type="button" value="logout" onClick={()=>{
+	  <div className="header"> Chat app  <p>Logged in as <h1>{sender}</h1></p><input type="button" value="logout" onClick={()=>{
 		  setPage(0)
 	  }}></input></div>
 	  <div className="mainContainer">
@@ -98,7 +108,7 @@ function App() {
 		  setMessage('')
 		  let c = container.current
 		  let scroll = c.offsetHeight
-
+		  sendMessage(message)
 		  setTimeout(function(){
 			c.scroll(0, scroll)
 			scroll+=100
