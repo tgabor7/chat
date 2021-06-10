@@ -34,6 +34,7 @@
 }
 .messageContainer{
   overflow: auto;
+  overflow-x: hidden;
 }
 .message1 {
   background-color: #dd2211;
@@ -125,13 +126,13 @@
   position: relative;
 }
 .header input {
-  float: right;
   border: 1px solid white;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   font-size: 16px;
-  margin: auto;
+  margin-bottom: 10px;
   background-color: #222222;
   padding: 10px;
+  text-align: center;
   color: white;
 }
 .header input:hover {
@@ -140,6 +141,7 @@
 }
 
 .header p {
+  padding-top: 10px;
   margin-left: 10px;
   margin-top: 0;
   padding: auto;
@@ -147,9 +149,11 @@
   float: right;
   border: 1px solid #222222;
 }
-.header h1 {
+.header .username {
   color: yellow;
   font-family: 'Times New Roman', Times, serif;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 .loginContainer {
   position: relative;
@@ -286,6 +290,7 @@ a:hover {
 .dashboardContainer {
   border: 1px solid #666666;
   margin-bottom: 50%;
+  margin-top: 20vw;
 }
 .dashboardContainer p {
   font-family: Arial, Helvetica, sans-serif;

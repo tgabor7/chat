@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react'
 import Login from './Login'
 import Dashboard from './Dashboard'
 import Footer from './Footer'
+import Header from './Header'
 
 const axios = require('axios')
 
@@ -11,10 +12,16 @@ function App() {
   
   var [messages, setMessages] = useState([])
   var [message, setMessage] = useState('')
-  var [page, setPage] = useState(2)
-  const [sender, setSender] = useState('usertest1')
-  const [receiver, setReceiver] = useState('usertest2')
+  var [page, setPage] = useState(1)
+  const [sender, setSender] = useState('')
+  const [receiver, setReceiver] = useState('')
   const [users, setUsers] = useState([])
+
+  useEffect(()=>{
+	  
+	if(sender !== '' && receiver !== '')update()
+	  
+  })
 
   let updateMessages = (m)=>{
 	let currentMessages = messages.slice();
@@ -27,41 +34,35 @@ function App() {
 
 	  })
   }
-
-  let updateUsers = ()=>{
+  let update = ()=>{
+	  getMessages(receiver, sender)
+  }
+  let getMessages = (e, s)=>{
+	const url = 'http://localhost:4000/chat/get/' + e + '/' + s
+	axios.get(url).then(response=>{
+	let tmp = response.data.map(m=>{
+			return {message: m.message, sender: m.sender === s ? 0 : 1}
+		})
+		setMessages(tmp)
+	})
+  }
+  let updateUsers = (s)=>{
 	axios.get('http://localhost:4000/user').then(response=>{
 		let tmp = response.data.map(e=>{
-			return <div className="userCard" onClick={()=>{
+			return <div className="userCard" key={e.name} onClick={()=>{
 				setReceiver(e.name)
-				setPage(1)
-				getMessages(e.name)
-				alert(e.name)
-				alert(sender)
+				setPage(0)
 			}}>{e.name}</div>
 		})
 		setUsers(tmp)
 	})
   }
-  let getMessages = (e)=>{
-	axios.get('http://localhost:4000/chat/get/' + sender + '/' + e).then(response=>{
-		let tmp = response.data.map(e=>{
-			return {message: e.message, sender: e.sender === sender ? 0 : 1}
-		})
-		setMessages(tmp)
-	})
-  }
   
-  useEffect(()=>{
-	
-	updateUsers()
-  }, [])
+	if(page !== 0) return (<div className="mainContainer"><Dashboard users={users} page={page} setPage={setPage} /><Header logout={()=>{
+		setPage(0)
 
- 
-	if(page === 2) return (<div className='mainContainer'><div className="header"> Chat app<p>Logged in as {sender}</p></div><Dashboard users={users} /><Footer /></div>)
-
-	if(page === 0) return (<div className="mainContainer"><div className="header"> Chat app<p>Logged in as {sender}</p></div><Login login={()=>{
-		updateUsers()
-		setPage(2)
+	}} sender={sender} setPage={setPage} /><Login page={page} updateUsers={updateUsers} setPage={setPage} sender={sender} setSender={setSender} login={(name)=>{
+		setPage(3)
 	}}/><Footer /></div>)
 
   
@@ -79,9 +80,10 @@ function App() {
   }
   
   return ( <div className="App">
-	  <div className="header"> Chat app  <p>Logged in as <h1>{sender}</h1></p><input type="button" value="logout" onClick={()=>{
-		  setPage(0)
-	  }}></input></div>
+	  <Header logout={()=>{
+		setSender('')
+		setPage(0)
+	}} sender={sender} setPage={setPage} />
 	  <div className="mainContainer">
 	<div className="container" ref={container}>
 	
@@ -92,7 +94,7 @@ function App() {
 	
 	</div>
 	<div className="innercontainer">
-	  <input type="text" class="messageField" ref={messageField} 
+	  <input type="text" className="messageField" ref={messageField} 
 	 onFocus={e=>{
 		 
 	 }} 
@@ -109,6 +111,7 @@ function App() {
 		  let c = container.current
 		  let scroll = c.offsetHeight
 		  sendMessage(message)
+		  alert(sender)
 		  setTimeout(function(){
 			c.scroll(0, scroll)
 			scroll+=100

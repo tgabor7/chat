@@ -5,7 +5,6 @@ const axios = require('axios')
 
 function Login(props){
 
-    const [page, setPage] = useState(0)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -15,7 +14,6 @@ function Login(props){
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
     const [userError, setUserError] = useState('')
     const [show, setShow] = useState(false)
-
 
     let validatePassword = ()=>{
         if(password.length < 8){
@@ -68,7 +66,7 @@ function Login(props){
         })
     }
 
-    if(page === 0) return (<div className="loginContainer">
+    if(props.page === 1) return (<div className="loginContainer">
         <h1>Login</h1>
         <form>
         <div className="Input"><input required value={username} onChange={e=>{setUsername(e.target.value)}} type="text"></input>
@@ -78,7 +76,7 @@ function Login(props){
         <div className="placeHolder">Password</div></div>
 
         <p>Don't have an account?<a onClick={()=>{
-            setPage(1)
+            props.setPage(2)
         }}>Sign up!</a></p>
         <input className="loginButton" type="button" value="Login" onClick={()=>{
                 axios.post('http://localhost:4000/user/login', {
@@ -92,18 +90,18 @@ function Login(props){
                         alert(response.data)
                     }
                     else {
-                        props.login()
+                        props.login(username)
+                        props.setSender(username)
+                        props.updateUsers(username)
                     }
 
                 })
         }
             
-            
-            
             }></input>
             </form>
     </div>)
-    else return (<div className="loginContainer">
+    else if(props.page === 2) return (<div className="loginContainer">
     <h1>Register</h1>
     <form>
     <div className="Input"><input required type="text" value={username} onChange={e=>{setUsername(e.target.value)}}></input>
@@ -123,7 +121,7 @@ function Login(props){
         <div className="error">{confirmPasswordError}</div></div>
 
     <p>Already have an account?<a onClick={()=>{
-            setPage(0)
+            props.setPage(1)
         }}>Log in!</a></p>
     
 
@@ -140,6 +138,7 @@ function Login(props){
         </form>
         <Dialog show={show} setShow={setShow} message={"Registered succesfully!"}></Dialog>
 </div>)
+else return (<div></div>)
 }
 
 export default Login;
