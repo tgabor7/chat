@@ -90,9 +90,10 @@ function Login(props){
                         alert(response.data)
                     }
                     else {
+                        props.updateUsers(username)
                         props.login(username)
                         props.setSender(username)
-                        props.updateUsers(username)
+                        window.sessionStorage.setItem('auth-token', response.data)
                     }
 
                 })

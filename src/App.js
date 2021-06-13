@@ -19,7 +19,7 @@ function App() {
 
   useEffect(()=>{
 	  
-	if(sender !== '' && receiver !== '')update()
+	if(sender !== '' && receiver !== '') update()
 	  
   })
 
@@ -36,10 +36,16 @@ function App() {
   }
   let update = ()=>{
 	  getMessages(receiver, sender)
+	  console.log(window.sessionStorage.getItem('auth-token'))
   }
   let getMessages = (e, s)=>{
 	const url = 'http://localhost:4000/chat/get/' + e + '/' + s
-	axios.get(url).then(response=>{
+	const config = {
+		headers: {
+			'auth-token': window.sessionStorage.getItem('auth-token')
+		}
+	}
+	axios.get(url, config).then(response=>{
 	let tmp = response.data.map(m=>{
 			return {message: m.message, sender: m.sender === s ? 0 : 1}
 		})
@@ -49,6 +55,7 @@ function App() {
   let updateUsers = (s)=>{
 	axios.get('http://localhost:4000/user').then(response=>{
 		let tmp = response.data.map(e=>{
+			if(e.name === s) return
 			return <div className="userCard" key={e.name} onClick={()=>{
 				setReceiver(e.name)
 				setPage(0)
@@ -111,13 +118,12 @@ function App() {
 		  let c = container.current
 		  let scroll = c.offsetHeight
 		  sendMessage(message)
-		  alert(sender)
 		  setTimeout(function(){
 			c.scroll(0, scroll)
 			scroll+=100
 		  },100)
 		  }} value="Send"></input></div>
-	<div className="name">{receiver}</div>
+	<div className="nameContainer"><div className="name">{receiver}</div></div>
 	</div>
 	<Footer />
    </div>);
