@@ -5,6 +5,6 @@ const pageReducer = require('./Page')
 
 const rootreducer = combineReducers({
     login: loginReducer,
-     page: pageReducer})
+    page: pageReducer})
 
 export default rootreducer

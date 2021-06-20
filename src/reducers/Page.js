@@ -11,4 +11,4 @@ const pageReducer = (state = 0, action)=>{
     }
 }
 
-export default pageReducer
+module.exports = pageReducer

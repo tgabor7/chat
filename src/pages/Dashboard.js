@@ -1,14 +1,15 @@
 import {useEffect, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 const axios = require('axios')
 
 function Dashboard(props){
 
-	if(props.page !== 3) return (<div></div>)
-	return (<div className="dashboardContainer">
+	const page = useSelector(state=>state.page)
+	return ((props.page === 3) ? <div className="dashboardContainer">
 		<p>Available users</p>
 		{props.users}
-		</div>)
+		</div>: '')
 
 }
 
