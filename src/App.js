@@ -5,8 +5,14 @@ import Login from './Login'
 import Dashboard from './Dashboard'
 import Footer from './Footer'
 import Header from './Header'
+import { createStore, combineReducers } from 'redux'
+import rootreducer from './reducers/reducers';
 
 const axios = require('axios')
+const dotenv = require('dotenv')
+const Url = require('./Url')
+
+const store = createStore(rootreducer)
 
 function App() {
   
@@ -16,12 +22,23 @@ function App() {
   const [sender, setSender] = useState('')
   const [receiver, setReceiver] = useState('')
   const [users, setUsers] = useState([])
+  const [time, setTime] = useState(0) 
+
+  let interval = 0
 
   useEffect(()=>{
-	  
+	if(page === 0) {
+		//setTime(0)
+		interval = setInterval(()=>{
+			setTime(time + 1)
+		},1000)
+		return ()=>{clearInterval(interval)}
+	}
+  },[page])
+
+  useEffect(()=>{
 	if(sender !== '' && receiver !== '') update()
-	  
-  })
+  }, [time])
 
   let updateMessages = (m)=>{
 	let currentMessages = messages.slice();
@@ -30,16 +47,15 @@ function App() {
   }
    
   let sendMessage = (m)=>{
-	  axios.post('http://localhost:4000/chat/post', {message: m, sender: sender, receiver: receiver}).then(()=>{
+	  axios.post(Url() +'chat/post', {message: m, sender: sender, receiver: receiver}).then(()=>{
 
 	  })
   }
   let update = ()=>{
 	  getMessages(receiver, sender)
-	  console.log(window.sessionStorage.getItem('auth-token'))
   }
   let getMessages = (e, s)=>{
-	const url = 'http://localhost:4000/chat/get/' + e + '/' + s
+	const url = Url() + 'chat/get/' + e + '/' + s
 	const config = {
 		headers: {
 			'auth-token': window.sessionStorage.getItem('auth-token')
@@ -53,22 +69,22 @@ function App() {
 	})
   }
   let updateUsers = (s)=>{
-	axios.get('http://localhost:4000/user').then(response=>{
+	axios.get(Url() + 'user').then(response=>{
 		let tmp = response.data.map(e=>{
 			if(e.name === s) return
 			return <div className="userCard" key={e.name} onClick={()=>{
 				setReceiver(e.name)
 				setPage(0)
-			}}>{e.name}</div>
+			}}><div className='profilepicture'><img src='../logo.svg'></img></div><div className='usercardtext'>{e.name}</div></div>
 		})
 		setUsers(tmp)
 	})
   }
   
-	if(page !== 0) return (<div className="mainContainer"><Dashboard users={users} page={page} setPage={setPage} /><Header logout={()=>{
+	if(page !== 0) return (<div className="mainContainer"><Header logout={()=>{
 		setPage(0)
 
-	}} sender={sender} setPage={setPage} /><Login page={page} updateUsers={updateUsers} setPage={setPage} sender={sender} setSender={setSender} login={(name)=>{
+	}} sender={sender} setPage={setPage} /><Dashboard users={users} page={page} setPage={setPage} /><Login page={page} updateUsers={updateUsers} setPage={setPage} sender={sender} setSender={setSender} login={(name)=>{
 		setPage(3)
 	}}/><Footer /></div>)
 
@@ -86,7 +102,7 @@ function App() {
 	  return true
   }
   
-  return ( <div className="App">
+  return (<div className="App">
 	  <Header logout={()=>{
 		setSender('')
 		setPage(0)

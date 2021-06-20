@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Dialog from './Dialog'
 
 const axios = require('axios')
+const Url = require('./Url')
 
 function Login(props){
 
@@ -33,7 +34,7 @@ function Login(props){
     }
 
     let validateUser = ()=>{
-        axios.get('http://localhost:4000/user/validateUser/' + username).then((r)=>{
+        axios.get(Url() + 'user/validateUser/' + username).then((r)=>{
             if(r.data !== 'ok') setUserError(r.data)
             else setUserError('')
         })
@@ -56,7 +57,7 @@ function Login(props){
     }
 
     let register = ()=>{
-        axios.post('http://localhost:4000/user/register', {name: username, password: password}).then(response=>{
+        axios.post(Url() + 'user/register', {name: username, password: password}).then(response=>{
             if (response.data === 'ok'){
                 setShow(true)
             }
@@ -79,7 +80,7 @@ function Login(props){
             props.setPage(2)
         }}>Sign up!</a></p>
         <input className="loginButton" type="button" value="Login" onClick={()=>{
-                axios.post('http://localhost:4000/user/login', {
+                axios.post(Url() + 'user/login', {
                     name: username,
                     password: password
                 }).then(response=>{
